@@ -1,0 +1,10 @@
+1.本包内模仿了spring 对hibernate事务的管理。没有涉及到session概念
+
+2，基本原理如下：
+	1.首先，明确事务肯定是加在connection上的。本质就是connection.commit()操作的控制
+	2.事务和connection的数量对应关系应该是1v多的。也就是一个事务可能有操作了多个connection，尤其是事务嵌套的时候
+	3.transactionManagerStackImpl更类似spring中的transactionInfo,负责维护本事务用到的connection栈。
+	4.TransactionManagerThreadLocal更能与spring中的XXXTransactionManager类似，由于本身是单例的，有需要维护transactionManagerStackImpl
+	      对象，还要保证线程间隔离，考虑到ThreadLocal来维护transactionManagerStackImpl，达到线程隔离目的。
+	5.扩展开来，spring的session在不做特殊配置情况下应该有一个XXXTransactionManager对象，这个XXXTransactionManager其实需要维护各个线程的transactionInfo
+	      最终事务的控制是由这个transactionInfo来实际操作的。transactionInfo通过管理多个connection来达到commit隔离的效果。

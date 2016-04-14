@@ -1,0 +1,46 @@
+2016-03-01 13:02:40,108 [DEBUG] io.netty.util.internal.logging.InternalLoggerFactory  - Using SLF4J as the default logging framework
+2016-03-01 13:02:40,112 [DEBUG] io.netty.channel.MultithreadEventLoopGroup  - -Dio.netty.eventLoopThreads: 8
+2016-03-01 13:02:40,122 [DEBUG] io.netty.util.internal.PlatformDependent0  - java.nio.Buffer.address: available
+2016-03-01 13:02:40,122 [DEBUG] io.netty.util.internal.PlatformDependent0  - sun.misc.Unsafe.theUnsafe: available
+2016-03-01 13:02:40,122 [DEBUG] io.netty.util.internal.PlatformDependent0  - sun.misc.Unsafe.copyMemory: available
+2016-03-01 13:02:40,123 [DEBUG] io.netty.util.internal.PlatformDependent0  - java.nio.Bits.unaligned: true
+2016-03-01 13:02:40,123 [DEBUG] io.netty.util.internal.PlatformDependent  - Platform: Windows
+2016-03-01 13:02:40,123 [DEBUG] io.netty.util.internal.PlatformDependent  - Java version: 7
+2016-03-01 13:02:40,123 [DEBUG] io.netty.util.internal.PlatformDependent  - -Dio.netty.noUnsafe: false
+2016-03-01 13:02:40,123 [DEBUG] io.netty.util.internal.PlatformDependent  - sun.misc.Unsafe: available
+2016-03-01 13:02:40,124 [DEBUG] io.netty.util.internal.PlatformDependent  - -Dio.netty.noJavassist: false
+2016-03-01 13:02:40,125 [DEBUG] io.netty.util.internal.PlatformDependent  - Javassist: unavailable
+2016-03-01 13:02:40,125 [DEBUG] io.netty.util.internal.PlatformDependent  - You don't have Javassist in your class path or you don't have enough permission to load dynamically generated classes.  Please check the configuration for better performance.
+2016-03-01 13:02:40,125 [DEBUG] io.netty.util.internal.PlatformDependent  - -Dio.netty.tmpdir: C:\Users\YIN_CH~1\AppData\Local\Temp (java.io.tmpdir)
+2016-03-01 13:02:40,125 [DEBUG] io.netty.util.internal.PlatformDependent  - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+2016-03-01 13:02:40,125 [DEBUG] io.netty.util.internal.PlatformDependent  - -Dio.netty.noPreferDirect: false
+2016-03-01 13:02:40,154 [DEBUG] io.netty.channel.nio.NioEventLoop  - -Dio.netty.noKeySetOptimization: false
+2016-03-01 13:02:40,154 [DEBUG] io.netty.channel.nio.NioEventLoop  - -Dio.netty.selectorAutoRebuildThreshold: 512
+2016-03-01 13:02:40,210 [DEBUG] io.netty.util.internal.ThreadLocalRandom  - -Dio.netty.initialSeedUniquifier: 0xfa8742b5350f4105 (took 9 ms)
+2016-03-01 13:02:40,255 [DEBUG] io.netty.buffer.ByteBufUtil  - -Dio.netty.allocator.type: unpooled
+2016-03-01 13:02:40,255 [DEBUG] io.netty.buffer.ByteBufUtil  - -Dio.netty.threadLocalDirectBufferSize: 65536
+2016-03-01 13:02:40,280 [DEBUG] io.netty.util.ResourceLeakDetector  - -Dio.netty.leakDetection.level: simple
+2016-03-01 13:02:40,280 [DEBUG] io.netty.util.ResourceLeakDetector  - -Dio.netty.leakDetection.maxRecords: 4
+2016-03-01 13:02:40,336 [DEBUG] io.netty.util.internal.Cleaner0  - java.nio.ByteBuffer.cleaner(): available
+2016-03-01 13:02:40,339 [DEBUG] io.netty.util.Recycler  - -Dio.netty.recycler.maxCapacity.default: 262144
+maxRecords: 4
+2016-03-01 13:02:40,332 [WARN ] io.netty.channel.ChannelInitializer  - Failed to initialize a channel. Closing: [id: 0x4d0a96a8, /127.0.0.1:60349 => /127.0.0.1:7878]
+java.lang.IllegalArgumentException: Duplicate handler name: handler
+	at io.netty.channel.DefaultChannelPipeline.checkDuplicateName(DefaultChannelPipeline.java:959)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:126)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:120)
+	at com.cpw.netty.netty4.HelloServerInitializer.initChannel(HelloServerInitializer.java:26)
+	at com.cpw.netty.netty4.HelloServerInitializer.initChannel(HelloServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.channelRegistered(ChannelInitializer.java:68)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRegistered(AbstractChannelHandlerContext.java:133)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRegistered(AbstractChannelHandlerContext.java:119)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRegistered(DefaultChannelPipeline.java:733)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:450)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$100(AbstractChannel.java:378)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:424)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:358)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:357)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:112)
+	at io.netty.util.concurrent.DefaultThreadFactory$DefaultRunnableDecorator.run(DefaultThreadFactory.java:137)
+	at java.lang.Thread.run(Thread.java:745)
+2016-03-01 13:02:40,336 [DEBUG] io.netty.util.Recycler  - -Dio.netty.recycler.maxCapacity.default: 262144
