@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- <context:property-placeholder location="classpath:Junit/test/jdbc.properties"/> -->
+
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<!--②-1属性编辑器对应的属性类型 -->
+				<entry key="com.cpw.spring.propertyEditor.BossBeanInfo">
+
+					<!--②-2对应的属性编辑器Bean -->
+					<bean class="com.cpw.spring.propertyEditor.jdk.BossPropertiesEditor" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="boss" class="com.cpw.spring.propertyEditor.spring.BeanDefine">
+		<property name="value" value="Paul,30,2017-10-01 00:00:01.000,CPW corp,Nanjing Jiangsu China" />
+	</bean>
+</beans>
