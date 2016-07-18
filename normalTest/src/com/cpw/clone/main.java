@@ -1,6 +1,7 @@
 package com.cpw.clone;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class main {
 	
@@ -41,6 +42,10 @@ public class main {
 	
 	
 	public static void main(String[] args) {
+		
+		
+		System.out.println(System.currentTimeMillis()-new Date().getTime());
+		System.out.println(TimeUnit.DAYS.toMillis(7));
 		PhatomClone pc = new PhatomClone();
 		pc.setCanBeClone(100);
 		TargetObj to = new TargetObj("PhatomCloe");

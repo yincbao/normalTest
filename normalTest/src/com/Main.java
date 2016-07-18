@@ -1,6 +1,7 @@
 package com;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -16,7 +17,26 @@ public class Main {
 	private static Pattern regBoo = Pattern.compile("\\d+;.*");
 	
 	private static Pattern QVOD_PATTERN = Pattern.compile("(.*)_\\d+\\.!mv");
-	public static void main(String[] args) throws IOException {
+	
+	
+	private Pattern contentCharsetPartten = Pattern.compile(".*;\\s*charset\\s*=\\s*(.*);.*"); 
+	
+	
+	public static void main(String args[]){
+		
+	}
+	public static void main1(String[] args) throws IOException {
+		
+		Pattern doNoAno = Pattern.compile("^(?!(Anno)).*$");
+		
+		Pattern doAno = Pattern.compile("^do(.*)Anno$");
+		
+		System.out.println(doNoAno.matcher("doadasssAnno").find());
+		
+		UUID uuid = UUIDUtils.create();
+		System.out.println(uuid.toString()+" "+(uuid.timestamp()==UUID.fromString(uuid.toString()).timestamp()));
+		
+		;
 //		Date date = new Date();
 //		if(date==null){
 //			throw new RuntimeException("null date object get!");

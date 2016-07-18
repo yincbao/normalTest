@@ -280,7 +280,7 @@ public class MailSender {
 
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		try{
-			MailSender se = new MailSender(false);
+			MailSender se = new MailSender(true);
 			File affix =null;
 			String content = "11111111111111111";
 			
