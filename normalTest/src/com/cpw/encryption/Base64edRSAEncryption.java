@@ -25,38 +25,24 @@ import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * @ClassName RSAEncryption.java
  * @Description
  * @author yin_changbao
- * @Date Jul 13, 2016 1:28:31 PM
- * 获取Key 的byte数组，getEncode方法
- * byte[] 可以转hex，也可直接base64转码成string字符串，写文件。
+ * @Date Jul 13, 2016 1:28:31 PM 获取Key 的byte数组，getEncode方法 byte[]
+ *       可以转hex，也可直接base64转码成string字符串，写文件。
  *
  */
-public class RSAEncryption {
+public class Base64edRSAEncryption {
 
-	public static String bytes2Hex(byte[] src) {
-
-		char[] res = new char[src.length * 2];
-		final char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-		for (int i = 0, j = 0; i < src.length; i++) {
-			res[j++] = hexDigits[src[i] >>> 4 & 0x0f];
-			res[j++] = hexDigits[src[i] & 0x0f];
-		}
-
-		return new String(res);
+	public static String getKeyString(Key key) throws Exception {
+		byte[] kb = key.getEncoded();
+		Base64 base64 = new Base64(0);
+		return base64.encodeToString(kb);
 	}
 
-	public static byte[] hex2Bytes(String src) {
-		byte[] res = new byte[src.length() / 2];
-		char[] chs = src.toCharArray();
-		for (int i = 0, c = 0; i < chs.length; i += 2, c++) {
-			res[c] = (byte) (Integer.parseInt(new String(chs, i, 2), 16));
-		}
-
-		return res;
-	}
 	public static void tinyFileWrite(String destFile, String content) {
 		BufferedWriter out = null;
 		try {
@@ -75,16 +61,17 @@ public class RSAEncryption {
 		}
 
 	}
-	public static void makeHexKeyFile(String pubkeyfile, String privatekeyfile) throws NoSuchAlgorithmException, IOException {
+
+	public static void makeHexKeyFile(String pubkeyfile, String privatekeyfile) throws Exception {
 
 		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
 		keyPairGen.initialize(1024, new SecureRandom());
 		KeyPair keyPair = keyPairGen.generateKeyPair();
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-		
-		tinyFileWrite(privatekeyfile,bytes2Hex(privateKey.getEncoded()));
-		tinyFileWrite(pubkeyfile,bytes2Hex(publicKey.getEncoded()));
+
+		tinyFileWrite(privatekeyfile, getKeyString(privateKey));
+		tinyFileWrite(pubkeyfile, getKeyString(publicKey));
 
 	}
 
@@ -139,6 +126,7 @@ public class RSAEncryption {
 		}
 		return null;
 	}
+
 	public static String tinyFileRead(File file) {
 		BufferedReader in = null;
 		try {
@@ -161,51 +149,50 @@ public class RSAEncryption {
 		return null;
 	}
 
-	
-	private static Key pubkeyEncodeByteToKey(byte[] encodeed) throws NoSuchAlgorithmException, InvalidKeySpecException{
-		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodeed);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        RSAPublicKey pubKey = (RSAPublicKey)keyFactory.generatePublic(keySpec);
-        return pubKey;
+	private static Key pubkeyEncodeByteToKey(String base64edpubkey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(new Base64(0).decode(base64edpubkey));
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		RSAPublicKey pubKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+		return pubKey;
 	}
-	
+
 	/**
 	 * @param hex2Bytes
 	 * @return
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
 	 */
-	private static Key prikeyEncodeByteToKey(byte[] hex2Bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		 PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(hex2Bytes);
-         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-         PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-         return privateKey;
+	private static Key prikeyEncodeByteToKey(String base64edprikey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(new Base64(0).decode(base64edprikey));
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+		return privateKey;
 	}
+
 	public static void main(String[] args) throws Exception {
 
-		String pubfile = "d:/temp/pub.key";
-		String prifile = "d:/temp/pri.key";
+		String pubfile = "d:/temp/pub1.key";
+		String prifile = "d:/temp/pri1.key";
 
 		mkfileIfNotExists(pubfile, prifile);
 
 		makeHexKeyFile(pubfile, prifile);
-		
-		
-		String pubkey = tinyFileRead(new File(pubfile));
-		
-		String prikey = tinyFileRead(new File(prifile));
-		
-		RSAPublicKey pubKey = (RSAPublicKey) pubkeyEncodeByteToKey( hex2Bytes(pubkey));
-		RSAPrivateKey priKey = (RSAPrivateKey) prikeyEncodeByteToKey( hex2Bytes(prikey));
 
-		
-		/*ObjectInputStream ois = new ObjectInputStream(new FileInputStream(pubfile));
-		RSAPublicKey pubkey = (RSAPublicKey) ois.readObject();
-		ois.close();
+		String base64edpubkey = tinyFileRead(new File(pubfile));
 
-		ois = new ObjectInputStream(new FileInputStream(prifile));
-		RSAPrivateKey prikey = (RSAPrivateKey) ois.readObject();
-		ois.close();*/
+		String base64edprikey = tinyFileRead(new File(prifile));
+
+		RSAPublicKey pubKey = (RSAPublicKey) pubkeyEncodeByteToKey(base64edpubkey);
+		RSAPrivateKey priKey = (RSAPrivateKey) prikeyEncodeByteToKey(base64edprikey);
+
+		/*
+		 * ObjectInputStream ois = new ObjectInputStream(new
+		 * FileInputStream(pubfile)); RSAPublicKey pubkey = (RSAPublicKey)
+		 * ois.readObject(); ois.close();
+		 * 
+		 * ois = new ObjectInputStream(new FileInputStream(prifile));
+		 * RSAPrivateKey prikey = (RSAPrivateKey) ois.readObject(); ois.close();
+		 */
 
 		// 使用公钥加密
 		String msg = "~O(∩_∩)O哈哈~";
@@ -228,8 +215,6 @@ public class RSAEncryption {
 
 	}
 
-
-
 	/**
 	 */
 	private static void mkfileIfNotExists(String... files) {
@@ -237,7 +222,6 @@ public class RSAEncryption {
 			File f = null;
 			for (String file : files) {
 				f = new File(file);
-				f.deleteOnExit();
 				if (!f.exists())
 					try {
 						f.getParentFile().mkdirs();
@@ -245,7 +229,7 @@ public class RSAEncryption {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-									
+
 			}
 
 		}
